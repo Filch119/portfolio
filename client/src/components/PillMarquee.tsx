@@ -1,13 +1,6 @@
-/*
- * Dark Quiet pill marquee.
- * The visual language is intentionally flat: text-only pills, one quiet border,
- * and continuous left-to-right motion. Reduced-motion users receive one static,
- * horizontally scrollable set instead of duplicated animated content.
- */
-
 import { useReducedMotion } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
-import type { CSSProperties } from "react";
+import { CircleDot } from "lucide-react";
+import type { CSSProperties, ReactNode } from "react";
 import "./PillMarquee.css";
 
 export type PillMarqueeItem = {
@@ -15,6 +8,7 @@ export type PillMarqueeItem = {
   label: string;
   meta?: string;
   href?: string;
+  icon?: ReactNode;
 };
 
 type PillMarqueeProps = {
@@ -31,16 +25,19 @@ function PillSet({ items, hidden = false }: { items: PillMarqueeItem[]; hidden?:
           className="pill-marquee-pill"
           href={item.href ?? `#${item.id}`}
           key={item.id}
-          tabIndex={hidden ? -1 : undefined}
+          tabIndex={hidden ? - 1 : undefined}
         >
+          <span className="pill-marquee-pill-icon">
+            {item.icon ?? <CircleDot size={12} aria-hidden="true" />}
+          </span>
           <span className="pill-marquee-pill-copy">
             {item.meta && <small>{item.meta}</small>}
             <strong>{item.label}</strong>
           </span>
-          {/* <ArrowUpRight size={13} aria-hidden="true" /> */}
         </a>
-      ))}
-    </div>
+      ))
+      }
+    </div >
   );
 }
 
