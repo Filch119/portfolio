@@ -19,6 +19,45 @@ import { ArrowDown, ArrowRight, ArrowUpRight, Award, BookOpen, Check, ChevronDow
 import { useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { createPlaceholderActivity, getConfiguredGithubUsername, loadGithubActivity, type GitHubActivity } from "@/lib/github";
+import {
+  SiPython,
+  SiCplusplus,
+  SiJavascript,
+  SiHtml5,
+  SiCss,
+  SiReact,
+  SiExpress,
+  SiNodedotjs,
+  SiGit,
+  SiMysql,
+  SiGithub,
+  SiSupabase,
+  SiFigma,
+} from "react-icons/si";
+const skillIcons: Record<string, ReactNode> = {
+  Python: <SiPython />,
+  "C++": <SiCplusplus />,
+  Javascript: <SiJavascript />,
+  HTML: <SiHtml5 />,
+  React: <SiReact />,
+  Express: <SiExpress />,
+  "Node.js": <SiNodedotjs />,
+  SQL: <Database size={13} />, // no single "SQL" brand logo — keep the existing lucide icon
+  Git: <SiGit />,
+  MySQL: <SiMysql />,
+  GitHub: <SiGithub />,
+  Supabase: <SiSupabase />,
+  Figma: <SiFigma />,
+  // "other" group has no real logos — fall back to a neutral icon
+  Leadership: <Sparkles size={13} />,
+  "Public Speaking": <Sparkles size={13} />,
+  "Active Listening": <Sparkles size={13} />,
+  Communication: <Sparkles size={13} />,
+  Adaptability: <Sparkles size={13} />,
+  "Problem Solving": <Sparkles size={13} />,
+};
+
+
 
 const profile = {
   name: "Pete Alexander Piangco",
@@ -34,8 +73,15 @@ const skillGroups = [
   { id: "other", label: "Other skills", icon: <Users size={15} />, items: ["Leadership", "Public Speaking", "Active Listening", "Communication", "Adaptability", "Problem Solving"] },
 ];
 
-const skillPills = skillGroups.flatMap((group) => group.items.map((item, index) => ({ id: `${group.id}-${index}`, label: item, meta: group.label, href: "#skills" })));
-
+const skillPills = skillGroups.flatMap((group) =>
+  group.items.map((item, index) => ({
+    id: `${group.id}-${index}`,
+    label: item,
+    meta: group.label,
+    href: "#skills",
+    icon: skillIcons[item],
+  }))
+);
 const projects: ReactBitsCarouselItem[] = [
   { id: "project-one", title: "VERIS Site", description: "The official marketing and information site of VERIS.", icon: <Network size={17} />, meta: "Web Development", role: "Project Lead", stack: "Next.js, Supabase, Tailwind CSS, TypeScript, Vercel", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop", href: "#replace-with-project-link" },
   { id: "project-two", title: "VSU E-Pasaporte", description: "Digital campus itinerary for the VSU student onboarding.", icon: <Code2 size={17} />, meta: "Front-End Development", role: "Front-End Developer", stack: "Tailwind CSS", image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop", href: "#replace-with-github-link" },
@@ -44,12 +90,14 @@ const projects: ReactBitsCarouselItem[] = [
 
 const organizationItems = [
   { id: "org-1", year: "2025 — Present", role: "Frontend Developer", organization: "VERIS", icon: <Network size={13} />, description: "Led the creation of the VERIS site, the organization's official marketing and information platform." },
-  { id: "org-2", year: "2025", role: "Board of Director — Socio-Cultural Affairs & Sports", organization: "FC SSC", icon: <Users size={13} />, description: "Managed and organized around 500 student athlete profiles during the Salingkusog 2025 Luring as Sirens Faction Assistant General Athletics Manager." },
-  { id: "org-3", year: "2025", role: "Alternative Education Committee Mentor", organization: "FC SSC", icon: <BookOpen size={13} />, description: "Mentored 30 students and collaborated with 3 fellow mentors to create a supportive study group." },
+  { id: "org-2", year: "2025 — Present", role: "Treasurer", organization: "FC SSC", icon: <Users size={13} />, description: "Responsible for the organization's financial management and bookkeeping." },
+  { id: "org-3", year: "2024-2025", role: "Quality Assurance", organization: "VERIS", icon: <Network size={13} />, description: "Monitored and maintained the integrity and functionality of the VERIS platform." },
+  { id: "org-4", year: "2024-2025", role: "Board of Director — Socio-Cultural Affairs & Sports", organization: "FC SSC", icon: <Users size={13} />, description: "Managed and organized around 500 student athlete profiles during the Salingkusog 2025 Luring as Sirens Faction Assistant General Athletics Manager." },
+  { id: "org-5", year: "2024-2025", role: "Alternative Education Committee Mentor", organization: "FC SSC", icon: <BookOpen size={13} />, description: "Mentored 30 students and collaborated with 3 fellow mentors to create a supportive study group." },
 ];
 
 const credentials = [
-  { icon: <GraduationCap size={14} />, type: "degree", title: "[Program / degree]", organization: "[University or institution]", detail: "[20XX — Present] · [focus or relevant coursework]" },
+  { icon: <GraduationCap size={14} />, type: "degree", title: "Bachelors of Science in Computer Science", organization: "Visayas State University", detail: "2024 — Present" },
   { icon: <Award size={14} />, type: "training", title: "[Relevant training or course]", organization: "[Provider or institution]", detail: "[20XX] · [what you practiced or completed]" },
   { icon: <Award size={14} />, type: "certification", title: "[Certificate, award, or accomplishment]", organization: "[Issuing organization]", detail: "[20XX] · [result, credential, or competition placement]" },
 ];
@@ -64,7 +112,7 @@ function Reveal({ children, delay = 0, className = "" }: { children: ReactNode; 
 
 function SectionHeading({ number, title, description }: { number: string; title: string; description: string }) {
   const reduceMotion = useReducedMotion();
-  return <div className="section-heading"><div className="section-heading-meta"><span>{number}</span><span className="section-heading-line" /><span>chapter</span></div><div className="section-heading-main"><h2>{reduceMotion ? title : <TextType as="span" text={title} typingSpeed={24} pauseDuration={4200} deletingSpeed={12} loop={false} showCursor={true} cursorCharacter="_" startOnVisible />}</h2><p>{description}</p></div></div>;
+  return <div className="section-heading"><div className="section-heading-meta"></div><div className="section-heading-main"><h2>{reduceMotion ? title : <TextType as="span" text={title} typingSpeed={24} pauseDuration={4200} deletingSpeed={12} loop={false} showCursor={true} cursorCharacter="_" startOnVisible />}</h2></div></div>;
 }
 
 function PlaceholderBadge({ children }: { children: ReactNode }) {
@@ -130,7 +178,6 @@ export default function Home() {
   return (
     <div className="dark-shell">
       <header className="dark-header">
-        <a className="dark-brand" href="#about" aria-label="Home / About Me"><span className="brand-avatar"><img src="/manus-storage/novice-hero-workbench_bdbfbac2.jpg" alt="" /></span><span><strong>[Your Name]</strong><small>[developer portfolio]</small></span></a>
         <nav className={`dark-nav ${mobileOpen ? "is-open" : ""}`} aria-label="Portfolio sections">
           <button type="button" onClick={() => scrollTo("about")}>Home</button>
           <button type="button" onClick={() => scrollTo("experience")}>Experience</button>
@@ -140,7 +187,6 @@ export default function Home() {
           <button type="button" onClick={() => scrollTo("education-credentials")}>Education</button>
           <button type="button" onClick={() => scrollTo("contact")}>Contact</button>
         </nav>
-        <div className="dark-header-right"><span className="availability-pill"><i /> [open to opportunities]</span><button className="dark-menu" type="button" aria-label={mobileOpen ? "Close navigation" : "Open navigation"} onClick={() => setMobileOpen((value) => !value)}>{mobileOpen ? <X size={16} /> : <Menu size={16} />}</button></div>
       </header>
 
       <main>
@@ -149,10 +195,7 @@ export default function Home() {
           <div className="hero-veil" aria-hidden="true" />
           <div className="hero-orbit hero-orbit-one" aria-hidden="true" />
           <div className="hero-orbit hero-orbit-two" aria-hidden="true" />
-          <div className="section-marker hero-marker"><span>01</span><span /> <span>home / about me</span></div>
           <div className="profile-intro centered-hero-content">
-            <Reveal><div className="hero-eyebrow"><span className="hero-dot" /> [developer portfolio] <span>/</span> [learning in public]</div></Reveal>
-            <Reveal delay={0.06}><div className="profile-identity centered-identity"><div className="profile-photo"><img src="/manus-storage/novice-hero-workbench_bdbfbac2.jpg" alt="Placeholder profile image" /></div><div><p className="hero-name-label">[your name]</p><p className="hero-role-label">{profile.role}</p></div></div></Reveal>
             <Reveal delay={0.12}><h1 className="hero-display"><span className="hero-name">{profile.name}</span>{reduceMotion ? <span className="hero-static-type">[building thoughtful software]</span> : <TextType as="span" text={["[building thoughtful software]", "[exploring data and interfaces]", "[learning in public]"]} typingSpeed={47} pauseDuration={1500} deletingSpeed={24} loop showCursor cursorCharacter="_" cursorClassName="hero-cursor" startOnVisible />}</h1></Reveal>
             <Reveal delay={0.18}><p className="about-lede centered-lede">{profile.intro}</p></Reveal>
             <Reveal delay={0.24}><div className="about-links centered-links"><Magnetic range={110}><a className="text-link strong-link" href="#projects" onClick={(event) => { event.preventDefault(); scrollTo("projects"); }}>View selected work <ArrowDown size={14} /></a></Magnetic><button className="text-link" type="button" onClick={() => scrollTo("contact")}>Get in touch <ArrowRight size={14} /></button></div></Reveal>
@@ -196,6 +239,7 @@ export default function Home() {
                   label: item,
                   meta: group.label,
                   href: "#skills",
+                  icon: skillIcons[item],
                 }));
 
                 return (
@@ -331,13 +375,13 @@ export default function Home() {
 
         <section id="education-credentials" className="dark-section education-section">
           <SectionHeading number="05" title="Education & Credentials" description="Keep your degree, relevant training, certificates, awards, and competition milestones in one concise record." />
-          <div className="record-list">{credentials.map((item, index) => <Reveal key={`${item.type}-${index}`} delay={index * 0.06}><article className="record-row"><span className="record-number">{item.icon}</span><div className="record-primary"><strong>{item.title}</strong><span>{item.organization}</span></div><div className="record-secondary"><span>{item.detail}</span><PlaceholderBadge>[credential link]</PlaceholderBadge></div></article></Reveal>)}</div>
+          <div className="record-list">{credentials.map((item, index) => <Reveal key={`${item.type}-${index}`} delay={index * 0.06}><article className="record-row"><span className="record-number">{item.icon}</span><div className="record-primary"><strong>{item.title}</strong><span>{item.organization}</span></div><div className="record-secondary"><span>{item.detail}</span><PlaceholderBadge>.</PlaceholderBadge></div></article></Reveal>)}</div>
         </section>
 
         <section id="contact" className="dark-section contact-section">
           <SectionHeading number="06" title="Contact" description="Use this closing line as your professional invitation to connect." />
-          <Reveal delay={0.08}><div className="contact-line"><div className="contact-copy"><span className="contact-kicker"><Mail size={14} /> contact / open to a conversation</span><h3>Let&apos;s build something useful.</h3><p>[Add one or two sentences about the kind of collaboration, internship, or opportunity you would welcome.]</p></div><div className="contact-actions"><button className="email-link" type="button" onClick={copyEmail}>{copied ? <Check size={15} /> : <Copy size={15} />}{copied ? "[email copied]" : profile.email}</button><div className="social-links"><a href="#replace-with-linkedin"><Linkedin size={14} /> LinkedIn <ExternalLink size={11} /></a><a href="#replace-with-github"><Github size={14} /> GitHub <ExternalLink size={11} /></a></div></div></div></Reveal>
-          <footer className="dark-footer"><span>Pete Alexander Piangco / portfolio</span><span>[replace placeholders before publishing]</span><button type="button" onClick={() => scrollTo("about")}>back to top ↑</button></footer>
+          <Reveal delay={0.08}><div className="contact-line"><div className="contact-copy"><span className="contact-kicker"><Mail size={14} /> contact / open to a conversation</span><h3>Let&apos;s build something useful.</h3><p>Open to opportunities.  </p></div><div className="contact-actions"><button className="email-link" type="button" onClick={copyEmail}>{copied ? <Check size={15} /> : <Copy size={15} />}{copied ? "[email copied]" : profile.email}</button><div className="social-links"><a href="#replace-with-linkedin"><Linkedin size={14} /> LinkedIn <ExternalLink size={11} /></a><a href="#replace-with-github"><Github size={14} /> GitHub <ExternalLink size={11} /></a></div></div></div></Reveal>
+          <footer className="dark-footer"><span>Pete Alexander Piangco / portfolio</span><span>© 2026 Pete Alexander N. Piangco</span><button type="button" onClick={() => scrollTo("about")}>back to top ↑</button></footer>
         </section>
       </main>
 
