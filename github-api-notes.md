@@ -1,0 +1,4 @@
+
+## Contribution data source
+
+The static implementation uses the public GitHub Contributions API documented at https://github.com/grubersjoe/github-contributions-api. Its endpoint is `https://github-contributions-api.jogruber.de/v4/GITHUB_USERNAME?y=last` and returns a JSON object with `total` year keys and a `contributions` array. Each contribution contains `date`, `count`, and a normalized `level` from 0 to 4. The repository notes that results are cached for one hour and uncached requests are rate-limited to 10 requests per 10 seconds per IP. The GitHub GraphQL reference for `ContributionCalendar` is https://docs.github.com/en/graphql/reference/objects#contributioncalendar and supports the token-backed shape provided in `pasted_content_4.txt`, but using that securely requires a server-side route that is outside this static frontend project.

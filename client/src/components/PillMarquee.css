@@ -1,0 +1,36 @@
+/*
+ * Continuous Dark Quiet pill track.
+ * The content moves left-to-right through a duplicated set so the loop remains
+ * seamless. Pills are quiet, bordered, and tactile rather than card-like.
+ */
+
+.pill-marquee { width: 100%; }
+.pill-marquee-viewport { position: relative; overflow: hidden; width: calc(100% + 50px); margin-left: -25px; padding: 22px 25px 18px; mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%); }
+.pill-marquee-track { display: flex; width: max-content; animation: pill-marquee-right var(--pill-marquee-duration, 38s) linear infinite; will-change: transform; }
+.pill-marquee-set { display: flex; align-items: stretch; gap: 12px; padding-right: 12px; }
+.pill-marquee-pill { display: inline-flex; align-items: center; justify-content: space-between; gap: 28px; min-width: 190px; min-height: 58px; border: 1px solid #343432; border-radius: 999px; padding: 11px 14px 11px 17px; background: rgba(255, 255, 255, 0.015); color: #e7e7e3; text-decoration: none; transition: border-color 170ms cubic-bezier(0.23, 1, 0.32, 1), background 170ms cubic-bezier(0.23, 1, 0.32, 1), transform 170ms cubic-bezier(0.23, 1, 0.32, 1); }
+.pill-marquee-pill:hover, .pill-marquee-pill:focus-visible { border-color: #a3a39e; background: rgba(255, 255, 255, 0.07); transform: translateY(-2px); outline: none; }
+.pill-marquee-pill-copy { display: flex; flex-direction: column; gap: 5px; }
+.pill-marquee-pill small { color: #696965; font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.02em; text-transform: uppercase; }
+.pill-marquee-pill strong { color: #e7e7e3; font-size: 12px; font-weight: 400; letter-spacing: -0.02em; white-space: nowrap; }
+.pill-marquee-pill > svg { flex: 0 0 auto; color: #90908d; }
+.pill-marquee-help { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0; color: #696965; font-family: 'DM Mono', monospace; font-size: 8px; text-transform: uppercase; }
+.pill-marquee-help span { width: 22px; height: 1px; background: #292928; }
+.pill-marquee:hover .pill-marquee-track, .pill-marquee:focus-within .pill-marquee-track { animation-play-state: paused; }
+
+.skills-rail { margin-top: 55px; border-top: 1px solid var(--line); }
+.skills-rail-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 15px 3px 0; color: var(--faint); font-family: 'DM Mono', monospace; font-size: 9px; text-transform: uppercase; }
+
+@keyframes pill-marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pill-marquee-track { animation: none; width: 100%; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #343432 transparent; }
+  .pill-marquee-set:nth-child(2) { display: none; }
+  .pill-marquee-viewport { mask-image: none; }
+}
+
+@media (max-width: 760px) {
+  .pill-marquee-viewport { width: calc(100% + 40px); margin-left: -20px; padding-right: 20px; padding-left: 20px; }
+  .pill-marquee-pill { min-width: 172px; min-height: 54px; gap: 18px; }
+  .skills-rail-heading { align-items: flex-start; flex-direction: column; gap: 6px; }
+}
