@@ -126,7 +126,7 @@ function normalizeContributions(username: string, payload: PublicResponse): GitH
 }
 
 export function getConfiguredGithubUsername() {
-  return (import.meta.env.GITHUB_USERNAME ?? "").trim();
+  return (import.meta.env.VITE_GITHUB_USERNAME ?? "").trim();
 }
 
 export function createPlaceholderActivity(username = "yourusername"): GitHubActivity {
