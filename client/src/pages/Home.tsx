@@ -190,7 +190,7 @@ export default function Home() {
   const copyEmail = async () => {
     await navigator.clipboard?.writeText(profile.email);
     setCopied(true);
-    toast.success("Placeholder email copied. Replace it with your professional address.");
+    toast.success("Email copied");
     window.setTimeout(() => setCopied(false), 1800);
   };
 
@@ -443,7 +443,6 @@ export default function Home() {
                               <article className="credential-item" key={`${group.id}-${index}`}>
                                 <span className="credential-item-icon">{item.icon}</span>
                                 <div className="credential-item-primary"><strong>{item.title}</strong><span>{item.organization}</span></div>
-                                <div className="credential-item-secondary"><span>{item.detail}</span></div>
                               </article>
                             ))}
                           </div>
