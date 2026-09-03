@@ -31,7 +31,6 @@ function PillSet({ items, hidden = false }: { items: PillMarqueeItem[]; hidden?:
             {item.icon ?? <CircleDot size={12} aria-hidden="true" />}
           </span>
           <span className="pill-marquee-pill-copy">
-            {item.meta && <small>{item.meta}</small>}
             <strong>{item.label}</strong>
           </span>
         </a>
