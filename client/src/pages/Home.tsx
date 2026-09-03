@@ -144,7 +144,7 @@ function formatActivityStatus(status: ActivityStatus, activity: GitHubActivity) 
   if (status === "loading") return "fetching / github contribution calendar";
   if (status === "live") return `live / github.com/${activity.login}`;
   if (status === "error") return "unavailable / showing placeholder activity";
-  return "setup / add VITE_GITHUB_USERNAME in .env.local";
+  return "setup / add GITHUB_USERNAME in .env.local";
 }
 
 export default function Home() {
