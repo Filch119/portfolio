@@ -96,10 +96,31 @@ const organizationItems = [
   { id: "org-5", year: "2024-2025", role: "Alternative Education Committee Mentor", organization: "FC SSC", icon: <BookOpen size={13} />, description: "Mentored 30 students and collaborated with 3 fellow mentors to create a supportive study group." },
 ];
 
-const credentials = [
-  { icon: <GraduationCap size={14} />, type: "degree", title: "Bachelors of Science in Computer Science", organization: "Visayas State University", detail: "2024 — Present" },
-  { icon: <Award size={14} />, type: "training", title: "[Relevant training or course]", organization: "[Provider or institution]", detail: "[20XX] · [what you practiced or completed]" },
-  { icon: <Award size={14} />, type: "certification", title: "[Certificate, award, or accomplishment]", organization: "[Issuing organization]", detail: "[20XX] · [result, credential, or competition placement]" },
+const educationRecord = {
+  icon: <GraduationCap size={18} />,
+  title: "Bachelors of Science in Computer Science",
+  organization: "Visayas State University",
+  detail: "2024 — Present",
+};
+
+const credentialGroups = [
+  {
+    id: "achievements",
+    title: "Achievements",
+    icon: <Award size={16} />,
+    items: [
+      { icon: <Award size={14} />, title: "ByteForward Hackathon 2024", organization: "Rev 21 Labs", detail: "1st Runner Up" },
+      { icon: <Award size={14} />, title: "CS Week Hackathon 2025", organization: "CS3", detail: "2nd Runner Up" },
+    ],
+  },
+  {
+    id: "certifications",
+    title: "Certifications",
+    icon: <Check size={16} />,
+    items: [
+      { icon: <Award size={14} />, title: "Introduction to Data Science", organization: "Cisco Networking Academy", detail: "Aug 18, 2026 - 6 hours" },
+    ],
+  },
 ];
 
 const fadeUp = { hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0 } };
@@ -131,6 +152,7 @@ export default function Home() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [activeSkillGroup, setActiveSkillGroup] = useState<string | null>("languages");
+  const [activeCredentialGroup, setActiveCredentialGroup] = useState<string | null>(null);
   const [projectsView, setProjectsView] = useState<"carousel" | "grid">("carousel");
   const [modalProject, setModalProject] = useState<ReactBitsCarouselItem | null>(null);
   const [activity, setActivity] = useState<GitHubActivity>(() => createPlaceholderActivity(getConfiguredGithubUsername() || "yourusername"));
@@ -374,13 +396,70 @@ export default function Home() {
         </section>
 
         <section id="education-credentials" className="dark-section education-section">
-          <SectionHeading number="05" title="Education & Credentials" description="Keep your degree, relevant training, certificates, awards, and competition milestones in one concise record." />
-          <div className="record-list">{credentials.map((item, index) => <Reveal key={`${item.type}-${index}`} delay={index * 0.06}><article className="record-row"><span className="record-number">{item.icon}</span><div className="record-primary"><strong>{item.title}</strong><span>{item.organization}</span></div><div className="record-secondary"><span>{item.detail}</span><PlaceholderBadge>.</PlaceholderBadge></div></article></Reveal>)}</div>
+          <SectionHeading number="05" title="Education & Credentials" description="Keep your degree, achievements, and certifications in one concise record." />
+
+          <Reveal delay={0.08}>
+            <article className="education-card">
+              <div className="education-card-main">
+                <span className="education-card-icon">{educationRecord.icon}</span>
+                <div className="education-card-copy">
+                  <span className="education-card-label">current program</span>
+                  <h3>{educationRecord.title}</h3>
+                  <p>{educationRecord.organization}</p>
+                </div>
+              </div>
+              <div className="education-card-footer"><span>{educationRecord.detail}</span><PlaceholderBadge>in progress</PlaceholderBadge></div>
+            </article>
+          </Reveal>
+
+          <div className="credential-dropdown-list">
+            {credentialGroups.map((group, groupIndex) => {
+              const isOpen = activeCredentialGroup === group.id;
+              return (
+                <Reveal key={group.id} delay={0.14 + groupIndex * 0.06}>
+                  <div className={`credential-dropdown ${isOpen ? "is-open" : ""}`}>
+                    <button
+                      type="button"
+                      className="credential-dropdown-trigger"
+                      onClick={() => setActiveCredentialGroup(isOpen ? null : group.id)}
+                      aria-expanded={isOpen}
+                      aria-controls={`${group.id}-content`}
+                    >
+                      <span className="credential-dropdown-label"><span className="credential-dropdown-icon">{group.icon}</span><span>{group.title}</span></span>
+                      <ChevronDown className="credential-dropdown-arrow" size={17} aria-hidden="true" />
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          id={`${group.id}-content`}
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
+                          style={{ overflow: "hidden" }}
+                        >
+                          <div className="credential-dropdown-content">
+                            {group.items.map((item, index) => (
+                              <article className="credential-item" key={`${group.id}-${index}`}>
+                                <span className="credential-item-icon">{item.icon}</span>
+                                <div className="credential-item-primary"><strong>{item.title}</strong><span>{item.organization}</span></div>
+                                <div className="credential-item-secondary"><span>{item.detail}</span></div>
+                              </article>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
         </section>
 
         <section id="contact" className="dark-section contact-section">
           <SectionHeading number="06" title="Contact" description="Use this closing line as your professional invitation to connect." />
-          <Reveal delay={0.08}><div className="contact-line"><div className="contact-copy"><span className="contact-kicker"><Mail size={14} /> contact / open to a conversation</span><h3>Let&apos;s build something useful.</h3><p>Open to opportunities.  </p></div><div className="contact-actions"><button className="email-link" type="button" onClick={copyEmail}>{copied ? <Check size={15} /> : <Copy size={15} />}{copied ? "[email copied]" : profile.email}</button><div className="social-links"><a href="#replace-with-linkedin"><Linkedin size={14} /> LinkedIn <ExternalLink size={11} /></a><a href="#replace-with-github"><Github size={14} /> GitHub <ExternalLink size={11} /></a></div></div></div></Reveal>
+          <Reveal delay={0.08}><div className="contact-line"><div className="contact-copy"><span className="contact-kicker"><Mail size={14} /> contact / open to a conversation</span><h3>Let&apos;s build something useful.</h3><p>Open to opportunities.  </p></div><div className="contact-actions"><button className="email-link" type="button" onClick={copyEmail}>{copied ? <Check size={15} /> : <Copy size={15} />}{copied ? "[email copied]" : profile.email}</button><div className="social-links"><a href="https://www.linkedin.com/in/pete-piangco/"><Linkedin size={14} /> LinkedIn <ExternalLink size={11} /></a><a href="https://github.com/Filch119"><Github size={14} /> GitHub <ExternalLink size={11} /></a></div></div></div></Reveal>
           <footer className="dark-footer"><span>Pete Alexander Piangco / portfolio</span><span>© 2026 Pete Alexander N. Piangco</span><button type="button" onClick={() => scrollTo("about")}>back to top ↑</button></footer>
         </section>
       </main>
