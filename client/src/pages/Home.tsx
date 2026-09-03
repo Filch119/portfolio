@@ -84,7 +84,7 @@ const skillPills = skillGroups.flatMap((group) =>
 );
 const projects: ReactBitsCarouselItem[] = [
   { id: "project-one", title: "VERIS Site", description: "The official marketing and information site of VERIS.", icon: <Network size={14} />, meta: "Web Development", role: "Project Lead", stack: "Next.js, Supabase, Tailwind CSS, TypeScript, Vercel", image: "/veris-site.png", href: "https://github.com/Atlas-VSU/veris-page" },
-  { id: "project-two", title: "VSU E-Pasaporte", description: "Digital campus itinerary for the VSU student onboarding.", icon: <Code2 size={14} />, meta: "Front-End Development", role: "Front-End Developer", stack: "Tailwind CSS", image: "/passport.png", href: "https://github.com/Atlas-VSU/e-pasaporte" },
+  { id: "project-two", title: "VSU E-Pasaporte", description: "Digital campus itinerary for the VSU student onboarding.", icon: <Code2 size={14} />, meta: "Front-End Development", role: "Front-End Developer", stack: "Tailwind CSS", image: "/passport.png", href: "https://github.com/Atlas-VSU/e-passport" },
   { id: "project-three", title: "ARAW.ai", description: "Student Virtual Assistant and Management Portal for VSU.", icon: <Sparkles size={14} />, meta: "AI & Web Development", role: "Full-Stack Developer", stack: "Next.js, Google Ai Studio, Tailwind CSS, TypeScript, Vercel", image: "/araw-ai.png", href: "https://github.com/gabiXDpapi/arawai" },
 ];
 
