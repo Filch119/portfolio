@@ -83,9 +83,9 @@ const skillPills = skillGroups.flatMap((group) =>
   }))
 );
 const projects: ReactBitsCarouselItem[] = [
-  { id: "project-one", title: "VERIS Site", description: "The official marketing and information site of VERIS.", icon: <Network size={17} />, meta: "Web Development", role: "Project Lead", stack: "Next.js, Supabase, Tailwind CSS, TypeScript, Vercel", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop", href: "#replace-with-project-link" },
-  { id: "project-two", title: "VSU E-Pasaporte", description: "Digital campus itinerary for the VSU student onboarding.", icon: <Code2 size={17} />, meta: "Front-End Development", role: "Front-End Developer", stack: "Tailwind CSS", image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop", href: "#replace-with-github-link" },
-  { id: "project-three", title: "ARAW.ai", description: "Student Virtual Assistant and Management Portal for VSU.", icon: <Sparkles size={17} />, meta: "AI & Web Development", role: "Full-Stack Developer", stack: "Next.js, Supabase, Tailwind CSS, TypeScript, Vercel", image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop", href: "#replace-with-project-link" },
+  { id: "project-one", title: "VERIS Site", description: "The official marketing and information site of VERIS.", icon: <Network size={14} />, meta: "Web Development", role: "Project Lead", stack: "Next.js, Supabase, Tailwind CSS, TypeScript, Vercel", image: "/veris-site.png", href: "https://github.com/Atlas-VSU/veris-page" },
+  { id: "project-two", title: "VSU E-Pasaporte", description: "Digital campus itinerary for the VSU student onboarding.", icon: <Code2 size={14} />, meta: "Front-End Development", role: "Front-End Developer", stack: "Tailwind CSS", image: "/passport.png", href: "https://github.com/Atlas-VSU/e-pasaporte" },
+  { id: "project-three", title: "ARAW.ai", description: "Student Virtual Assistant and Management Portal for VSU.", icon: <Sparkles size={14} />, meta: "AI & Web Development", role: "Full-Stack Developer", stack: "Next.js, Google Ai Studio, Tailwind CSS, TypeScript, Vercel", image: "/araw-ai.png", href: "https://github.com/gabiXDpapi/arawai" },
 ];
 
 const organizationItems = [
@@ -153,7 +153,7 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [activeSkillGroup, setActiveSkillGroup] = useState<string | null>("languages");
   const [activeCredentialGroup, setActiveCredentialGroup] = useState<string | null>(null);
-  const [projectsView, setProjectsView] = useState<"carousel" | "grid">("carousel");
+  const [projectsView, setProjectsView] = useState<"carousel" | "grid">("grid");
   const [modalProject, setModalProject] = useState<ReactBitsCarouselItem | null>(null);
   const [activity, setActivity] = useState<GitHubActivity>(() => createPlaceholderActivity(getConfiguredGithubUsername() || "yourusername"));
   const [activityStatus, setActivityStatus] = useState<ActivityStatus>(() => getConfiguredGithubUsername() ? "loading" : "placeholder");
@@ -316,7 +316,7 @@ export default function Home() {
                   role="tab"
                   aria-selected={projectsView === "carousel"}
                 >
-                  <Sliders size={13} /> Carousel Showcase
+                  <Sliders size={13} />
                 </button>
                 <button
                   type="button"
@@ -325,7 +325,7 @@ export default function Home() {
                   role="tab"
                   aria-selected={projectsView === "grid"}
                 >
-                  <LayoutGrid size={13} /> Visual Grid
+                  <LayoutGrid size={13} />
                 </button>
               </div>
             </Reveal>
@@ -387,12 +387,6 @@ export default function Home() {
               </div>
             </Reveal>
           )}
-
-          <Reveal delay={0.12}>
-            <p className="component-caption">
-              <span /> Visual project showcase / click any image to enlarge <span />
-            </p>
-          </Reveal>
         </section>
 
         <section id="education-credentials" className="dark-section education-section">
